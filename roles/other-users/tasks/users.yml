@@ -1,0 +1,8 @@
+---
+- name: Add user {{ user_name }}
+  user: 
+    name: "{{ user_name }}"
+    #groups: docker, microk8s
+    shell: /bin/bash
+    append: yes    
+...

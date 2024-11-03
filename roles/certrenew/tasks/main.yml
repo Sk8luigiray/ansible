@@ -1,0 +1,9 @@
+---
+- name: Set certificate auto-renew cron task
+  cron:
+    name: "cert-renew"
+    minute: "0"
+    hour: "2"
+    job: "/bin/certbot renew -n"
+    user: root
+...

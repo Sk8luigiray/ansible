@@ -1,0 +1,51 @@
+---
+- name: Set timezone
+  timezone:
+    name: Europe/Madrid
+
+- name: Update packages
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+- name: Upgrade packages
+  apt: upgrade=dist force_apt_get=yes
+  register: reboot
+
+- name: Install basic packages
+  apt:
+    name: curl, python3, python3-pip
+    state: latest
+
+- include_tasks: users.yml
+
+#- name: Disable SSH password login
+#  lineinfile:
+#    path: /etc/ssh/sshd_config
+#    regex: '^#PasswordAuthentication'
+#    line: 'PasswordAuthentication no'
+
+- name: Allow programs on sudo
+  lineinfile:
+    path: /etc/sudoers
+    line: 'ltbackup ALL=NOPASSWD: /bin/tar, /bin/chown -R ltbackup\:ltbackup /home/ltbackup/backups/*'
+    create: yes
+
+- name: Allow all sudo commands without password for {{ user_name }}
+  lineinfile:
+    path: /etc/sudoers
+    line: '{{ user_name }} ALL=(ALL:ALL) NOPASSWD:ALL'
+    create: yes
+
+- name: Reboot immediately if there was a change.
+  shell: "sleep 5 && reboot"
+  async: 1
+  poll: 0
+  when: reboot is changed
+
+- name: Wait for the reboot to complete if there was a change.
+  wait_for_connection:
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 300
+  when: reboot is changed
+...

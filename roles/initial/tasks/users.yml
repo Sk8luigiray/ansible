@@ -1,0 +1,20 @@
+---
+- name: Add user lt
+  user:
+    name: lt
+    uid: 10000
+    groups: docker
+    shell: /bin/bash
+    append: yes
+#- name: Add user lt to microk8s group
+#  user:
+#    name: lt
+#    groups: microk8s
+#    append: yes
+- name: Add user ltbackup
+  user:
+    name: ltbackup
+    uid: 10001
+    shell: /bin/bash
+    append: yes
+...

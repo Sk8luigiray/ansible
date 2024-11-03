@@ -1,0 +1,9 @@
+- name: Install s3cmd
+  pip:
+    name: s3cmd
+    state: present
+
+- name: Config s3cmd
+  copy:
+    src: "{{ s3file }}"
+    dest: /home/ltbackup/.s3cfg

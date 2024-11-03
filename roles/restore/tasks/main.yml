@@ -1,0 +1,35 @@
+---
+- name: "Retrieve last backup"
+  shell: s3cmd get --skip-existing s3://backup/"{{ service }}"/backup_"{{ service }}"-vol_"{{ today }}".tar.gz /home/qobackup/"{{ service }}".tar.gz
+  become: yes
+  become_user: ltbackup
+
+- name: "Unzip backup"
+  unarchive:
+    src: /home/ltbackup/{{ service }}.tar.gz
+    dest: /
+    remote_src: yes
+  notify: restart nginx
+
+- name: "Copy Docker system descriptor"
+  copy:
+    src: "{{ role_path }}/../common/files/dockerdescriptor"
+    dest: /etc/systemd/system/docker-compose@.service
+    remote_src: no
+    owner: root
+  register: descriptor_copy
+
+- name: "Enable descriptor on system boot"
+  systemd:
+    name: docker-compose@{{ service }}
+    enabled: yes
+  when: descriptor_copy is changed
+  register: descriptor_enabled
+
+- name: "Start Docker service"
+  systemd:
+    name: docker-compose@{{ service }}.service
+    state: started
+  when: descriptor_enabled is changed
+...
+    

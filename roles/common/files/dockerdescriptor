@@ -1,0 +1,42 @@
+############################################################
+# Descriptor para servicios basados en docker-compose      #
+#                                                          #
+# Cómo instalarlo                                          #
+# Nos aseguramos de que nuestro servicio se encuentre      #
+# dentro de /opt/ (ej: /opt/hemera)                        #
+#                                                          #
+# Copiamos el contenido de este archivo y guardamos en     #
+# /etc/systemd/system/docker-compose\@.service             #
+#                                                          #
+# Arrancar/parar el servicio:                              #
+# $ systemctl start docker-compose@hemera                  #
+# $ systemctl stop docker-compose@hemera                   #
+#                                                          #
+# Añadirlo al arranque de la máquina                       #
+# $ systemctl enable docker-compose@hemera                 #
+############################################################
+
+
+[Unit]
+Description=%I service with docker compose
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+User=lt
+Group=docker
+
+WorkingDirectory=/opt/%I
+
+# Remove old containers, images and volumes
+ExecStartPre=/usr/bin/docker-compose down -v
+
+# Compose up
+ExecStart=/usr/bin/docker-compose up
+
+# Compose down, remove containers and volumes
+ExecStop=/usr/bin/docker-compose down -v
+
+[Install]
+WantedBy=multi-user.target

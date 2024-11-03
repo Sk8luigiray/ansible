@@ -1,0 +1,11 @@
+---
+- name: restart fail2ban
+  shell: fail2ban-client restart
+  listen: restart fail2ban
+  register: restart
+
+- name: reload fail2ban
+  shell: fail2ban-client reload
+  listen: restart fail2ban
+  when: restart == true
+...

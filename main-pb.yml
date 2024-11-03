@@ -1,0 +1,37 @@
+---
+- hosts:
+    - omnia
+  remote_user: root
+  vars:
+    #Required by "s3cmd" role.
+    #local=For lxc container inside qotools host.
+    #remote=For any other machines running outside tools host.
+    s3file: local
+    # Personal User for create 
+    user_name: luigi
+    #Required by "restore" role (This feature is no longer maintained)
+#    service: jenkins
+#    today: 2020-07-08
+  roles:
+
+### PLEASE UNCOMMENT WHAT YOU WANT TO PERFORM IN THE GIVEN HOSTS ###
+
+## First container setup ##
+
+#    - initial      # First container config users
+
+#    - other-users  # Create nominal users
+## Install additional packages and features ##
+
+#    - upgrade      # Performs apt update && apt upgrade
+#    - nginx        # Install nginx, certbot, python3-certbot-nginx
+#    - certrenew    # Add crontab for SSL certs autorenewal
+#    - fail2ban     # Install Fail2ban
+#    - docker       # Install Oficial Docker
+    - microk8s      # Install Microk8s
+#    - s3cmd        # Install s3cmd
+#    - java         # Install openjdk-17-jdk
+
+## Backup restoring ##
+#    - restore      #Used to restoring an existing service's backup
+...

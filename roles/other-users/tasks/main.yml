@@ -1,0 +1,10 @@
+---
+- include_tasks: users.yml
+
+- name: Allow all sudo commands without password for {{ user_name }}
+  lineinfile:
+    path: /etc/sudoers
+    line: '{{ user_name }} ALL=(ALL:ALL) NOPASSWD:ALL'
+    create: yes
+
+...

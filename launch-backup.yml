@@ -1,0 +1,7 @@
+---
+- hosts: pro jenkins nexus sonar datametrics cats_ge qotube
+  remote_user: root
+  roles:
+    - launch-backup
+...
+

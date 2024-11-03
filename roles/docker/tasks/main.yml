@@ -1,0 +1,43 @@
+---
+
+- name: Uninstall Docker.
+  apt:
+    name: docker docker-engine docker.io containerd runc
+    state: absent
+    purge: yes
+
+- name: Instal necesary software.
+  apt:
+    name: apt-transport-https, ca-certificates, gnupg-agent, software-properties-common
+    state: latest
+
+- name: Remove useless packages from the cache.
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required.
+  apt:
+    autoremove: yes
+
+- name: Add official docker signing key.
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add official docker sources list.
+  apt_repository:
+    repo: "deb https://download.docker.com/linux/ubuntu focal stable"
+    state: present
+    filename: docker.list
+    update_cache: yes
+
+- name: Install Official Docker.
+  apt:
+    name: docker-ce, docker-ce-cli, containerd.io
+    state: latest
+    update_cache: yes
+
+- name: Install bottle python package
+  pip:
+    name: docker-compose
+...

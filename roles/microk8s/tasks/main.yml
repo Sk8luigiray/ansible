@@ -1,0 +1,50 @@
+---
+- name: Ensure snapd is installed
+  apt:
+    name: snapd
+    state: present
+    update_cache: yes
+
+- name: Ensure microk8s is absent (if exists)
+  shell: |
+    snap list microk8s && snap remove microk8s || echo "microk8s is not installed"
+  ignore_errors: yes
+
+- name: Install microk8s
+  snap:
+    name: microk8s
+    state: present
+    classic: yes
+    channel: 1.29/stable
+
+- name: Enable dns addon for MicroK8s
+  command: microk8s enable dns
+  become: true
+
+- name: Enable storage addon for MicroK8s
+  command: microk8s enable storage
+  become: true
+
+- name: Enable dashboard addon for MicroK8s
+  command: microk8s enable dashboard
+  become: true
+
+- name: Enable registry addon for MicroK8s
+  command: microk8s enable registry
+  become: true
+
+- name: Enable ingress addon for MicroK8s
+  command: microk8s enable ingress
+  become: true
+
+- name: Enable cert-manager addon for MicroK8s
+  command: microk8s enable cert-manager
+  become: true
+
+- name: Alias microk8s.kubectl as kubectl
+  command: sudo snap alias microk8s.kubectl kubectl
+  become: true   
+- name: Alias microk8s.helm as helm
+  command: sudo snap alias microk8s.helm helm
+  become: true
+...

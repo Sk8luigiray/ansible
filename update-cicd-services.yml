@@ -1,0 +1,9 @@
+## Updates Docker images of Jenkins, Nexus and Sonar apps ##
+
+---
+- hosts: jenkins
+  remote_user: root
+  roles:
+    - update-cicd-services
+...
+    

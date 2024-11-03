@@ -1,0 +1,6 @@
+---
+- name: Launch update script
+  shell: "/bin/bash /opt/{{ ansible_hostname }}/update.sh"
+  async: 1000
+  poll: 0
+...

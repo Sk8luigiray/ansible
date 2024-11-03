@@ -1,0 +1,11 @@
+---
+
+- name: Launch host backup
+  shell: /bin/bash /home/ltbackup/bin/launch-host-backup.sh
+  become: yes
+  become_user: ltbackup
+  async: 1000
+  poll: 0
+
+...
+
