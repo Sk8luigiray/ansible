@@ -1,6 +1,6 @@
 ---
 - hosts:
-    - omnia
+    - huaraya
   remote_user: root
   vars:
     #Required by "s3cmd" role.
@@ -18,17 +18,17 @@
 
 ## First container setup ##
 
-#    - initial      # First container config users
+    - initial      # First container config users
 
-#    - other-users  # Create nominal users
+    - other-users  # Create nominal users
 ## Install additional packages and features ##
 
-#    - upgrade      # Performs apt update && apt upgrade
+    - upgrade      # Performs apt update && apt upgrade
 #    - nginx        # Install nginx, certbot, python3-certbot-nginx
 #    - certrenew    # Add crontab for SSL certs autorenewal
 #    - fail2ban     # Install Fail2ban
-#    - docker       # Install Oficial Docker
-    - microk8s      # Install Microk8s
+    - docker       # Install Oficial Docker
+#    - microk8s      # Install Microk8s
 #    - s3cmd        # Install s3cmd
 #    - java         # Install openjdk-17-jdk
 
