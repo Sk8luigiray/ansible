@@ -1,6 +1,6 @@
 ---
 - hosts:
-    - huaraya
+    - server
   remote_user: root
   vars:
     #Required by "s3cmd" role.
