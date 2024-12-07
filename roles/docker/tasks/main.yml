@@ -37,7 +37,7 @@
     state: latest
     update_cache: yes
 
-- name: Install bottle python package
-  pip:
-    name: docker-compose
+#- name: Install bottle python package
+#  pip:
+#    name: docker-compose
 ...
